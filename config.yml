@@ -1,6 +1,11 @@
 # Enable/Disable tnt igniter features
 isActive: true
 
+#####################################
+#
+# Manage where you can use the tnt igniter feature.
+#
+
 # Use spigot worlds names
 allowed_world:
 - "world"
@@ -17,6 +22,33 @@ disabled_player:
 # EMPTY FOR DISABLE IT
 # 
 ignite_perm: ""
+
+#####################################
+#
+# Manage launch effect of TNT
+#
+launch:
+  # Enable/Disable it
+  enable: true
+
+  # When the launcher have to be used
+  # Click available:
+  # 'right' : Only the right click
+  # 'left' : Only the left click
+  # 'both' : All click
+  click: "right"
+  # With available:
+  # 'air' : Only when click on air
+  # 'block' : Only when click on block
+  # 'both' : When click on something
+  with: "both"
+
+  # Vector added to the primed tnt.
+  # The default one is just here to make the tnt go up and not fall directly
+  vector:
+    x: 0
+    y: 0.5
+    z: 0
 
 #####################################
 #

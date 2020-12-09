@@ -1,6 +1,5 @@
 package com.elikill58.tntigniter;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -23,19 +22,7 @@ public class BlockEvents implements Listener {
 	
 	private boolean hasPerm(Player p) {
 		String ignitePerm = pl.getConfig().getString("ignite_perm");
-		if (ignitePerm.isEmpty() || ignitePerm.equalsIgnoreCase(" "))
-			return true;
-		else if (p.isOp() || p.hasPermission(ignitePerm))
-			return true;
-		return false;
-	}
-	
-	private Location divide(Location loc, int divide) {
-		Location next = loc.clone();
-		next.setX(loc.getX() / divide);
-		next.setY(loc.getY() / divide);
-		next.setZ(loc.getZ() / divide);
-		return next;
+		return ignitePerm.isEmpty() || ignitePerm.equalsIgnoreCase(" ") || p.isOp() || p.hasPermission(ignitePerm);
 	}
 	
 	public boolean isDisabledPlayer(Player p) {
@@ -62,9 +49,18 @@ public class BlockEvents implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		if (TnTIgniter.isActive() && p.getItemInHand().getType().equals(Material.TNT) && isDisabledPlayer(p)) {
-			Entity et = p.getWorld().spawnEntity(p.getLocation(), EntityType.PRIMED_TNT);
-			et.setVelocity(divide(p.getEyeLocation().subtract(p.getLocation()), 2).toVector());
+		if(!TnTIgniter.isActive() || !TnTIgniter.launcherActive || p.getItemInHand() == null)
+			return;
+		String actName = e.getAction().name(), click = TnTIgniter.launchClick, with = TnTIgniter.launchWith;
+		if(!(click.equalsIgnoreCase("both") || actName.contains(click.toUpperCase())))
+			return;
+		if(!(with.equalsIgnoreCase("both") || actName.contains(with.toUpperCase())))
+			return;
+			
+		if (p.getItemInHand().getType().equals(Material.TNT) && !isDisabledPlayer(p)) {
+			Entity et = p.getWorld().spawnEntity(p.getLocation().clone().add(0, 1, 0), EntityType.PRIMED_TNT);
+			et.setVelocity(p.getLocation().getDirection().add(TnTIgniter.tntVector).normalize());
+			e.setCancelled(true);
 		}
 	}
 }

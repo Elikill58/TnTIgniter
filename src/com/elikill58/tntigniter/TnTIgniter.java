@@ -6,15 +6,19 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
 
 public class TnTIgniter extends JavaPlugin implements Listener {
 
 	private static boolean active = true;
-	public static boolean worldGuardSupport = false;
+	public static boolean worldGuardSupport = false, launcherActive = true;
+	public static Vector tntVector;
+	public static String launchClick = "right", launchWith = "both";
 
 	public static boolean isActive() {
 		return active;
@@ -55,6 +59,16 @@ public class TnTIgniter extends JavaPlugin implements Listener {
 		ALLOWED_WORLD.addAll(config.getStringList("allowed_world"));
 		DISABLED_PLAYER.addAll(config.getStringList("disabled_player"));
 		DISABLED_AREA.addAll(config.getStringList("disabled_area"));
+		
+		ConfigurationSection section = config.getConfigurationSection("launch");
+		if(section == null) {
+			pl.getLogger().warning("Cannot load TNT launcher feature because we cannot find the configuration for it.");
+			launcherActive = false;
+			return;
+		}
+		launchClick = section.getString("click", "right");
+		launchWith = section.getString("with", "both");
+		tntVector = new Vector(section.getDouble("vector.x", 0.0), section.getDouble("vector.y", 0.5), section.getDouble("vector.z", 0.0));
 	}
 
 	public void sendMessage(Player p, String key, Object... placeholders) {
