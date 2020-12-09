@@ -6,6 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -34,10 +35,10 @@ public class BlockEvents implements Listener {
 		return false;
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlaceBlock(BlockPlaceEvent e) {
 		Block bp = e.getBlockPlaced();
-		if (bp == null || !TnTIgniter.isActive() || isDisabledPlayer(e.getPlayer()))
+		if (bp == null || !TnTIgniter.isActive() || isDisabledPlayer(e.getPlayer()) || e.isCancelled())
 			return;
 		if (bp.getType().equals(Material.TNT) && (hasPerm(e.getPlayer()))
 				&& TnTIgniter.ALLOWED_WORLD.contains(bp.getWorld().getName())) {
@@ -46,10 +47,10 @@ public class BlockEvents implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		if(!TnTIgniter.isActive() || !TnTIgniter.launcherActive || p.getItemInHand() == null)
+		if(!TnTIgniter.isActive() || !TnTIgniter.launcherActive || p.getItemInHand() == null || e.isCancelled())
 			return;
 		String actName = e.getAction().name(), click = TnTIgniter.launchClick, with = TnTIgniter.launchWith;
 		if(!(click.equalsIgnoreCase("both") || actName.contains(click.toUpperCase())))
