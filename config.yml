@@ -1,8 +1,14 @@
+# Enable/Disable tnt igniter features
 isActive: true
 
+# Use spigot worlds names
 allowed_world:
 - "world"
 - "anotherWorld"
+
+# Need WorldGuard plugin
+disabled_area:
+- "spawn"
 
 disabled_player:
 - "a uuid or name"
@@ -12,6 +18,10 @@ disabled_player:
 # 
 ignite_perm: ""
 
+#####################################
+#
+# All messages used by the plugin
+#
 reloaded: "&aThe plugin is well reloaded"
 active_enable: "&aNow, TnT will be ignite when you place it."
 active_disable: "&aTnT are no longer ignite when you place it."

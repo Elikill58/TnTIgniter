@@ -35,7 +35,7 @@ public class TntIgniterCommand implements CommandExecutor, TabCompleter {
 			pl.sendMessage(p, TnTIgniter.isActive() ? "active_enable" : "active_disable");
 		} else {
 			if (arg[0].equalsIgnoreCase("reload")) {
-				TnTIgniter.load(pl.getConfig());
+				TnTIgniter.load(pl);
 				pl.sendMessage(p, "reloaded");
 			} else if (arg[0].equalsIgnoreCase("enable")) {
 				if (TnTIgniter.isActive())

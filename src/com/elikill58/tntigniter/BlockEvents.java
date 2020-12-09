@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.elikill58.tntigniter.support.WorldGuardSupport;
+
 public class BlockEvents implements Listener {
 	
 	private final TnTIgniter pl;
@@ -21,7 +23,7 @@ public class BlockEvents implements Listener {
 	
 	private boolean hasPerm(Player p) {
 		String ignitePerm = pl.getConfig().getString("ignite_perm");
-		if (ignitePerm.equalsIgnoreCase("") || ignitePerm.equalsIgnoreCase(" "))
+		if (ignitePerm.isEmpty() || ignitePerm.equalsIgnoreCase(" "))
 			return true;
 		else if (p.isOp() || p.hasPermission(ignitePerm))
 			return true;
@@ -37,6 +39,8 @@ public class BlockEvents implements Listener {
 	}
 	
 	public boolean isDisabledPlayer(Player p) {
+		if(TnTIgniter.worldGuardSupport && WorldGuardSupport.isInAreas(p.getLocation(), TnTIgniter.DISABLED_AREA))
+			return true;
 		for(String s : TnTIgniter.DISABLED_PLAYER)
 			if(p.getName().equalsIgnoreCase(s) || p.getDisplayName().equalsIgnoreCase(s) || p.getUniqueId().toString().equalsIgnoreCase(s))
 				return true;
