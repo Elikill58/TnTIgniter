@@ -46,9 +46,9 @@ public class BlockEvents implements Listener {
 	@EventHandler
 	public void onPlaceBlock(BlockPlaceEvent e) {
 		Block bp = e.getBlockPlaced();
-		if (bp == null || isDisabledPlayer(e.getPlayer()))
+		if (bp == null || !TnTIgniter.isActive() || isDisabledPlayer(e.getPlayer()))
 			return;
-		if (bp.getType().equals(Material.TNT) && TnTIgniter.isActive && (hasPerm(e.getPlayer()))
+		if (bp.getType().equals(Material.TNT) && (hasPerm(e.getPlayer()))
 				&& TnTIgniter.ALLOWED_WORLD.contains(bp.getWorld().getName())) {
 			bp.setType(Material.AIR);
 			bp.getWorld().spawnEntity(bp.getLocation(), EntityType.PRIMED_TNT);
@@ -58,7 +58,7 @@ public class BlockEvents implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		if (TnTIgniter.isActive && p.getItemInHand().getType().equals(Material.TNT) && isDisabledPlayer(p)) {
+		if (TnTIgniter.isActive() && p.getItemInHand().getType().equals(Material.TNT) && isDisabledPlayer(p)) {
 			Entity et = p.getWorld().spawnEntity(p.getLocation(), EntityType.PRIMED_TNT);
 			et.setVelocity(divide(p.getEyeLocation().subtract(p.getLocation()), 2).toVector());
 		}
