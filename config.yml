@@ -12,6 +12,7 @@ disabled_player:
 # 
 ignite_perm: ""
 
+reloaded: "&aThe plugin is well reloaded"
 active_enable: "&aNow, TnT will be ignite when you place it."
 active_disable: "&aTnT are no longer ignite when you place it."
 already_enable: "TnT are already igniting ..."
