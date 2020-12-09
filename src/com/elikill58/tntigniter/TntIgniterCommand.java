@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 
 public class TntIgniterCommand  implements CommandExecutor, TabCompleter {
 
-	private Main pl;
+	private TnTIgniter pl;
 
-	public TntIgniterCommand(Main pl) {
+	public TntIgniterCommand(TnTIgniter pl) {
 		this.pl = pl;
 	}
 
@@ -26,32 +26,32 @@ public class TntIgniterCommand  implements CommandExecutor, TabCompleter {
 		Player p = (Player) sender;
 		if (p.hasPermission("tntigniter.edit") || p.isOp()) {
 			if (arg.length == 0) {
-				Main.isActive = !Main.isActive;
-				pl.getConfig().set("isActive", Main.isActive);
+				TnTIgniter.isActive = !TnTIgniter.isActive;
+				pl.getConfig().set("isActive", TnTIgniter.isActive);
 				pl.saveConfig();
-				if (Main.isActive)
+				if (TnTIgniter.isActive)
 					p.sendMessage(pl.getMessage("active_enable"));
 				else
 					p.sendMessage(pl.getMessage("active_disable"));
 			} else {
 				if (arg[0].equalsIgnoreCase("enable")) {
-					if (Main.isActive)
+					if (TnTIgniter.isActive)
 						p.sendMessage(pl.getMessage("already_enabled"));
 					else {
-						Main.isActive = true;
+						TnTIgniter.isActive = true;
 						p.sendMessage(pl.getMessage("active_enable"));
 					}
 				} else if (arg[0].equalsIgnoreCase("disable")) {
-					if (!Main.isActive)
+					if (!TnTIgniter.isActive)
 						p.sendMessage(pl.getMessage("already_disabled"));
 					else {
-						Main.isActive = false;
+						TnTIgniter.isActive = false;
 						p.sendMessage(pl.getMessage("active_disable"));
 					}
 				} else if (arg[0].equalsIgnoreCase("world")) {
 					if (arg.length == 1) {
 						p.sendMessage(pl.getMessage("world_allowed", "%world%",
-								Main.ALLOWED_WORLD.toString().replaceAll("\\[", "").replaceAll("\\]", "")));
+								TnTIgniter.ALLOWED_WORLD.toString().replaceAll("\\[", "").replaceAll("\\]", "")));
 					} else {
 						World world = Bukkit.getWorld(arg[1]);
 						if (world == null) {
@@ -59,12 +59,12 @@ public class TntIgniterCommand  implements CommandExecutor, TabCompleter {
 							return false;
 						}
 						boolean state = true;
-						if (Main.ALLOWED_WORLD.contains(world.getName())) {
-							Main.ALLOWED_WORLD.remove(world.getName());
+						if (TnTIgniter.ALLOWED_WORLD.contains(world.getName())) {
+							TnTIgniter.ALLOWED_WORLD.remove(world.getName());
 							state = false;
 						} else
-							Main.ALLOWED_WORLD.add(world.getName());
-						pl.getConfig().set("allowed_world", Main.ALLOWED_WORLD);
+							TnTIgniter.ALLOWED_WORLD.add(world.getName());
+						pl.getConfig().set("allowed_world", TnTIgniter.ALLOWED_WORLD);
 						pl.saveConfig();
 						p.sendMessage(pl.getMessage("world_state", "%state%",
 								pl.getMessage("state_" + (state ? "added" : "removed")), "%world%",
