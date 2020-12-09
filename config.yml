@@ -1,0 +1,24 @@
+isActive: true
+
+allowed_world:
+- "world"
+- "anotherWorld"
+
+disabled_player:
+- "a uuid or name"
+
+# Permission for using the auto ignite.
+# EMPTY FOR DISABLE IT
+# 
+ignite_perm: ""
+
+active_enable: "&aNow, TnT will be ignite when you place it."
+active_disable: "&aTnT are no longer ignite when you place it."
+already_enable: "TnT are already igniting ..."
+already_disable: "TnT igniting is already disabled."
+world_allowed: "World allowed: %world%"
+unknow_world: "%arg% isn't a valid world."
+world_state: "%world% %state%"
+state_added: "added"
+state_removed: "removed"
+not_permission: "&cYou don't have permission to do that."

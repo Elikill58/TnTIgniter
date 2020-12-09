@@ -1,0 +1,7 @@
+main: com.elikill58.tntigniter.Main
+name: TnTIgniter
+version: 1.0
+author: Elikill58
+
+commands:
+  tntigniter:
