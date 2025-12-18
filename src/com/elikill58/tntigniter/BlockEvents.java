@@ -1,5 +1,7 @@
 package com.elikill58.tntigniter;
 
+import java.util.Arrays;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -13,7 +15,19 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.elikill58.tntigniter.support.WorldGuardSupport;
 
+@SuppressWarnings("deprecation")
 public class BlockEvents implements Listener {
+	
+	private static final EntityType PRIMED_TNT = loadPrimedTntEntityType();
+	
+	public static EntityType loadPrimedTntEntityType() {
+		for(String name : Arrays.asList("PRIMED_TNT", "TNT")) {
+			try {
+				return EntityType.valueOf(name);
+			} catch (Exception e) {}
+		}
+		return null;
+	}
 	
 	private final TnTIgniter pl;
 	
@@ -43,7 +57,7 @@ public class BlockEvents implements Listener {
 		if (bp.getType().equals(Material.TNT) && (hasPerm(e.getPlayer()))
 				&& TnTIgniter.ALLOWED_WORLD.contains(bp.getWorld().getName())) {
 			bp.setType(Material.AIR);
-			bp.getWorld().spawnEntity(bp.getLocation(), EntityType.PRIMED_TNT);
+			bp.getWorld().spawnEntity(bp.getLocation(), PRIMED_TNT);
 		}
 	}
 
@@ -59,7 +73,7 @@ public class BlockEvents implements Listener {
 			return;
 			
 		if (p.getItemInHand().getType().equals(Material.TNT) && !isDisabledPlayer(p)) {
-			Entity et = p.getWorld().spawnEntity(p.getLocation().clone().add(0, 1, 0), EntityType.PRIMED_TNT);
+			Entity et = p.getWorld().spawnEntity(p.getLocation().clone().add(0, 1, 0), PRIMED_TNT);
 			et.setVelocity(p.getLocation().getDirection().add(TnTIgniter.tntVector).normalize());
 			e.setCancelled(true);
 		}

@@ -1,0 +1,46 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+plugins {
+    id 'java-library'
+    id 'io.github.goooler.shadow' version '8.1.7'
+}
+repositories {
+    mavenCentral()
+    maven { url "https://maven.enginehub.org/repo/" }
+    maven {
+        name = 'paper'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.14'
+    compileOnly 'io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+sourceSets {
+    main {
+        java.srcDirs = ['src']
+        resources.srcDirs = ['resources']
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+task prepareServer(type: Copy) {
+    from shadowJar.outputs
+    def pluginDir = System.getProperty('plugin.dir')
+    if (pluginDir == null) {
+        enabled(false)
+    } else {
+        into pluginDir
+    }
+}
+
+build.dependsOn shadowJar
+
+shadowJar {
+    archiveFileName = "TnTIgniter.jar"
+}
