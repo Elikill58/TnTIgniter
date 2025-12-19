@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -72,7 +72,7 @@ public class TnTIgniter extends JavaPlugin implements Listener {
 		tntVector = new Vector(section.getDouble("vector.x", 0.0), section.getDouble("vector.y", 0.5), section.getDouble("vector.z", 0.0));
 	}
 
-	public void sendMessage(Player p, String key, Object... placeholders) {
+	public void sendMessage(CommandSender p, String key, Object... placeholders) {
 		p.sendMessage(getMessage(key, placeholders));
 	}
 
