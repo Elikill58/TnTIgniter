@@ -1,8 +1,9 @@
 main: com.elikill58.tntigniter.TnTIgniter
 name: TnTIgniter
 version: ${version}
+api-version: 1.13
 author: Elikill58
-depend: [WorldGuard]
+softdepend: [WorldGuard]
 
 commands:
   tntigniter:
