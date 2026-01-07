@@ -23,6 +23,9 @@ disabled_player:
 # 
 ignite_perm: ""
 
+# Allow to keep TNTs in the inventory when you are in survival
+keep_tnt_in_inventory: false
+
 #####################################
 #
 # Manage launch effect of TNT
